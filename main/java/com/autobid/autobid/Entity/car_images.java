@@ -1,4 +1,4 @@
-package com.autobid.autobid;
+package com.autobid.autobid.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +12,6 @@ public class car_images {
     private int id;
     @Column(name = "car_id")
     private int car_id;
-    @Lob
     @Column(name = "image")
-    private byte[] image;
+    private String image;
 }

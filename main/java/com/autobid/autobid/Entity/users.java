@@ -1,12 +1,10 @@
-package com.autobid.autobid;
+package com.autobid.autobid.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,14 +13,22 @@ public class users {
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "created_at")
     private Date created_at;
+
     @Column(name = "balance")
     private double balance;
+
+    @OneToMany(mappedBy = "f_user_id", fetch = FetchType.EAGER)
+    private List<car_information> carInformationList;
 }

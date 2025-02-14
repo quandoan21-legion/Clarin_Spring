@@ -1,0 +1,289 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Feb 13, 2025 at 01:18 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `auto_bid`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE `answers` (
+  `comment_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `answer_text` varchar(255) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auctions`
+--
+
+CREATE TABLE `auctions` (
+  `car_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `owner_id` int(11) DEFAULT NULL,
+  `end_time` datetime(6) DEFAULT NULL,
+  `start_time` datetime(6) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bids`
+--
+
+CREATE TABLE `bids` (
+  `auction_id` int(11) DEFAULT NULL,
+  `bid_amount` double DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `bid_time` datetime(6) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car_images`
+--
+
+CREATE TABLE `car_images` (
+  `car_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car_information`
+--
+
+CREATE TABLE `car_information` (
+  `id` int(11) NOT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `starting_bid` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `year_model` tinyint(4) DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `make` varchar(255) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `description` tinytext DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `auction_id` int(11) DEFAULT NULL,
+  `car_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `auction_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `total_amount` double DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `order_date` datetime(6) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `comment_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `question_text` varchar(255) DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `balance` double DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL
+) ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKctn6owss1s8bt6u1rf1n5heor` (`comment_id`),
+  ADD KEY `FK5bp3d5loftq2vjn683ephn75a` (`user_id`);
+
+--
+-- Indexes for table `auctions`
+--
+ALTER TABLE `auctions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK6tooqji4se5wp9qc58bf4amv6` (`car_id`),
+  ADD KEY `FKgupu8pibvwptwstx61bpcmpjc` (`owner_id`);
+
+--
+-- Indexes for table `bids`
+--
+ALTER TABLE `bids`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKbm89m2gow82dotpnlcp7t3p5f` (`auction_id`),
+  ADD KEY `FKmb21nl8gr3srgnlch3s18oqv9` (`user_id`);
+
+--
+-- Indexes for table `car_images`
+--
+ALTER TABLE `car_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK1qc6s67evswr7p1tg61l4deiu` (`image_id`);
+
+--
+-- Indexes for table `car_information`
+--
+ALTER TABLE `car_information`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKcmsu4obgdb3jx6kkw1lnkby9g` (`user_id`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKi0fjcs2bowlf80f0lrb716tpm` (`auction_id`),
+  ADD KEY `FKit2htp65mi893ywc74t7ofhr5` (`car_id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK9rcjvsf0m9o1lp0kyseo7oygp` (`auction_id`),
+  ADD KEY `FK32ql8ubntj5uh44ph9659tiih` (`user_id`),
+  ADD KEY `FK9lp8fgib9m2kb6ng09xwln484` (`order_id`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK1jaludiu5g7ne7uo362o562ck` (`comment_id`),
+  ADD KEY `FKjoo8hp6d3gfwctr68dl2iaemj` (`user_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+  ADD CONSTRAINT `FK5bp3d5loftq2vjn683ephn75a` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `FKctn6owss1s8bt6u1rf1n5heor` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`);
+
+--
+-- Constraints for table `auctions`
+--
+ALTER TABLE `auctions`
+  ADD CONSTRAINT `FK6tooqji4se5wp9qc58bf4amv6` FOREIGN KEY (`car_id`) REFERENCES `car_information` (`id`),
+  ADD CONSTRAINT `FKgupu8pibvwptwstx61bpcmpjc` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `bids`
+--
+ALTER TABLE `bids`
+  ADD CONSTRAINT `FKbm89m2gow82dotpnlcp7t3p5f` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`),
+  ADD CONSTRAINT `FKmb21nl8gr3srgnlch3s18oqv9` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `car_images`
+--
+ALTER TABLE `car_images`
+  ADD CONSTRAINT `FK1qc6s67evswr7p1tg61l4deiu` FOREIGN KEY (`image_id`) REFERENCES `car_information` (`id`);
+
+--
+-- Constraints for table `car_information`
+--
+ALTER TABLE `car_information`
+  ADD CONSTRAINT `FKcmsu4obgdb3jx6kkw1lnkby9g` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `FKi0fjcs2bowlf80f0lrb716tpm` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`),
+  ADD CONSTRAINT `FKit2htp65mi893ywc74t7ofhr5` FOREIGN KEY (`car_id`) REFERENCES `car_information` (`id`);
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `FK32ql8ubntj5uh44ph9659tiih` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `FK9lp8fgib9m2kb6ng09xwln484` FOREIGN KEY (`order_id`) REFERENCES `car_information` (`id`),
+  ADD CONSTRAINT `FK9rcjvsf0m9o1lp0kyseo7oygp` FOREIGN KEY (`auction_id`) REFERENCES `auctions` (`id`);
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+  ADD CONSTRAINT `FK1jaludiu5g7ne7uo362o562ck` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`id`),
+  ADD CONSTRAINT `FKjoo8hp6d3gfwctr68dl2iaemj` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
