@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "users")
 public class users {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -24,11 +25,12 @@ public class users {
     private String email;
 
     @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
 
     @Column(name = "balance")
     private double balance;
 
-    @OneToMany(mappedBy = "f_user_id", fetch = FetchType.EAGER)
-    private List<car_information> carInformationList;
+//    @OneToMany(mappedBy = "f_user_id", fetch = FetchType.EAGER)
+//    private List<car_information> carInformationList;
 }
